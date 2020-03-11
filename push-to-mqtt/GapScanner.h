@@ -58,8 +58,8 @@ public:
             return;
         }
 
-        /* to show we're running we'll blink every 500ms */
-        _blink_event = _event_queue.call_every(500, this, &GapScanner::blink);
+        /* to show we're running we'll blink every 1000ms */
+        _blink_event = _event_queue.call_every(1000, this, &GapScanner::blink);
 
         /* this will not return until shutdown */
         _event_queue.dispatch_forever();
@@ -67,9 +67,7 @@ public:
 
 
     int get_rssi(){
-        int buf = _rssi;
-        _rssi = 0;
-        return buf;
+        return _rssi;
     }
 
 private:
@@ -134,6 +132,7 @@ private:
 
     /** Blink LED to show we're running */
     void blink(void) {
+        _rssi = 0;
         _led1 = !_led1;
     }
 
@@ -171,7 +170,7 @@ private:
             //printf("%02X:%02X:%02X:%02X:%02X:%02X\r\n", addr[5], addr[4], addr[3], addr[2], addr[1], addr[0]);
             if (strcmp(str_addr, _ble_addr) == 0)  {
                 //printf("%02X:%02X:%02X:%02X:%02X:%02X", addr[5], addr[4], addr[3], addr[2], addr[1], addr[0]);
-                //printf("\trssi %d\n\r", event.getRssi());
+                //printf("\tRSSI %d\n\r", event.getRssi());
                 _rssi = event.getRssi();
             }
             //ble_error_t error = _gap.connect(
@@ -196,7 +195,7 @@ private:
 
     virtual void onScanTimeout(const ble::ScanTimeoutEvent&) {
         printf("Stopped scanning early due to timeout parameter\r\n");
-        _event_queue.call_in(10000, this, &GapScanner::scan);
+        _event_queue.call_in(1000, this, &GapScanner::scan);
     }    
 
 private:
