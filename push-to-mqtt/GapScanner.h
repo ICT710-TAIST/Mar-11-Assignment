@@ -132,7 +132,7 @@ private:
 
     /** Blink LED to show we're running */
     void blink(void) {
-        _rssi = 0;
+        _rssi = 0; // resetting rssi value
         _led1 = !_led1;
     }
 
