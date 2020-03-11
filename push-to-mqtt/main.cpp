@@ -21,31 +21,28 @@ char*  ble_addr = "F4:5C:89:92:12:34";
 
 void pressed_handler() {
 
-    static int count = 0;
     int ret;
     int rssi;
 
     MQTT::Message message;
- 
-    // QoS 0
     char buf[100];
-    sprintf(buf, "{\"count\":%d}", ++count);
-    message.qos = MQTT::QOS0;
-    message.retained = false;
-    message.dup = false;
-    message.payload = (void*)buf;
-    message.payloadlen = strlen(buf)+1;
-    printf("Sending MQTT message, RSSI: %d\r\n", rssi);
-    ret = mqttClient->publish(MQTT_TOPIC, message);
-    if (ret != 0) {
-        printf("rc from publish was %d\r\n", ret);
-        return;
-    }    
+
     while(1) {
-        if ((rssi = scanner->get_rssi())==0) {
-            printf("RSSI: %d\r\n", rssi);
+        if ((rssi = scanner->get_rssi())!=0) {
+            sprintf(buf, "{\"rssi\":%d}", rssi);
+            message.qos = MQTT::QOS0;
+            message.retained = false;
+            message.dup = false;
+            message.payload = (void*)buf;
+            message.payloadlen = strlen(buf)+1;
+            ret = mqttClient->publish(MQTT_TOPIC, message);
+            if (ret != 0) {
+                printf("rc from publish was %d\r\n", ret);
+                return;
+            }
+            printf("Published topic: %s\t msg: %s", MQTT_TOPIC, buf);
         }
-        ThisThread::sleep_for(1000);
+        ThisThread::sleep_for(500);
     }
 }
 
