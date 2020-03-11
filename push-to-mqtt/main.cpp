@@ -40,7 +40,7 @@ void pressed_handler() {
                 printf("rc from publish was %d\r\n", ret);
                 return;
             }
-            printf("Published topic: %s\t msg: %s", MQTT_TOPIC, buf);
+            printf("Published topic: %s\t msg: %s\r\n", MQTT_TOPIC, buf);
         }
         ThisThread::sleep_for(500);
     }

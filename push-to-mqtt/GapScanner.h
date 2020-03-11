@@ -167,9 +167,9 @@ private:
             const uint8_t* addr = event.getPeerAddress().data();
             char str_addr[32];
             sprintf(str_addr, "%02X:%02X:%02X:%02X:%02X:%02X", addr[5], addr[4], addr[3], addr[2], addr[1], addr[0]);
-            //printf("%02X:%02X:%02X:%02X:%02X:%02X\r\n", addr[5], addr[4], addr[3], addr[2], addr[1], addr[0]);
+            // print_address(addr);
             if (strcmp(str_addr, _ble_addr) == 0)  {
-                //printf("%02X:%02X:%02X:%02X:%02X:%02X", addr[5], addr[4], addr[3], addr[2], addr[1], addr[0]);
+                //print_address(addr);
                 //printf("\tRSSI %d\n\r", event.getRssi());
                 _rssi = event.getRssi();
             }
