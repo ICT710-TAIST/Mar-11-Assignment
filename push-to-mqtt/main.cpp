@@ -1,6 +1,7 @@
 #include <mbed.h>
 #include <MQTTClientMbedOs.h>
 #include "GapScanner.h"
+#include <limits>
 
 EventQueue event_queue;
 
@@ -28,7 +29,7 @@ void pressed_handler() {
     char buf[100];
 
     while(1) {
-        if ((rssi = scanner->get_rssi())!=0) {
+        if ((rssi = scanner->get_rssi())!=INT_MIN) {
             sprintf(buf, "{\"rssi\":%d}", rssi);
             message.qos = MQTT::QOS0;
             message.retained = false;

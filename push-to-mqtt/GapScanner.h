@@ -2,6 +2,7 @@
 #include "gap/Gap.h"
 #include "gap/AdvertisingDataParser.h"
 #include "pretty_printer.h"
+#include "limits"
 
 typedef struct {
     ble::scan_interval_t interval;
@@ -132,7 +133,7 @@ private:
 
     /** Blink LED to show we're running */
     void blink(void) {
-        _rssi = 0; // resetting rssi value
+        _rssi = INT_MIN; // resetting rssi value
         _led1 = !_led1;
     }
 
