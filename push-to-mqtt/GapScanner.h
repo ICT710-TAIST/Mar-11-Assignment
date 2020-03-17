@@ -121,7 +121,7 @@ private:
 
         /* start scanning and attach a callback that will handle advertisements
          * and scan requests responses */
-        error = _gap.startScan(scan_params.duration);
+        error = _gap.startScan(scan_params.duration, ble::duplicates_filter_t::ENABLE);
         if (error) {
             print_error(error, "Error caused by Gap::startScan");
             return;
